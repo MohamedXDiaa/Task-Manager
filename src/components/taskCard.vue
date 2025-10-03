@@ -49,19 +49,23 @@ const category = computed(() => store.categories.find((cat) => cat.id === catego
         <div class="bg-white p-4 rounded-lg shadow-md mb-4">
             <div class="flex gap-4">
                 <img :src="image_url" alt="Task Image" class="w-[200px] h-[200px] rounded-sm mb-2" />
-                <div class="flex flex-col justify-between flex-1">
+                <div class="flex flex-col flex-1">
                         <h3 class="text-lg font-semibold mb-2">{{ title }}</h3>
                         <p class="text-gray-600 mb-2">{{ description }}</p>
-                        <StatusLamp :completed="completed" />
-                        <div v-if="category" class="flex items-center gap-1.5">
-                            <img  :src="`${category.icon_url.split('?')[0]}?color=${encodeURIComponent(category.color)}`" alt="icon">
-                            <p class="font-semibold text-sm" :style="`color: ${category.color}`">
-                            {{ category.name}}</p>
+                    <div class="mt-auto flex flex-col justify-between">
+                        <div class="flex items-center gap-4">
+                            <StatusLamp :completed="completed" />
+                            <div v-if="category" class="flex items-center gap-1.5">
+                                <img  :src="`${category.icon_url.split('?')[0]}?color=${encodeURIComponent(category.color)}`" alt="icon">
+                                <p class="font-semibold text-sm" :style="`color: ${category.color}`">
+                                {{ category.name}}</p>
+                            </div>
+                            <p class="font-semibold text-sm">Priority: {{ priority }}</p>
                         </div>
-                        <p class="font-semibold text-sm">Priority: {{ priority }}</p>
                     <div class="flex justify-between items-center">
                         <span class="text-sm text-gray-500">{{ dueDate }}</span>
                         <Button>View Details</Button>
+                    </div>
                     </div>
                 </div>
             </div>

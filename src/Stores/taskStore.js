@@ -7,6 +7,13 @@ export const taskStore = defineStore("taskStore", () => {
     const loading = ref(false);
     const error = ref(null);
 
+    const pagination = ref({
+        totalPages: 1,
+        currentPage: 1,
+        total: 0,
+        perPage: 20
+    });
+
     async function fetchTasks(params = {}) {
         loading.value = true;
         error.value = null;
@@ -17,11 +24,17 @@ export const taskStore = defineStore("taskStore", () => {
             if (params.priority) query += `priority=eq.${params.priority}&`;
 
             const limit = 20;
-            const offset = params.offset || 0;
+            const offset = ((params.page || 1)- 1 )* limit;
 
             query += `limit=${limit}&offset=${offset}&order=created_at.desc`
-            const { data } = await axios.get(query)
+            const { data , headers } = await api.get(query)
             tasks.value = data;
+
+            const totalItems = parseInt(headers['x-total-count'] || data.length);
+            pagination.value.currentPage = params.page || 1;
+            pagination.value.perPage = limit
+            pagination.value.total = totalItems
+            pagination.value.totalPages = Math.ceil(totalItems/ limit)
         } catch (e) {
             error.value = e.message;
         } finally {
@@ -47,6 +60,7 @@ export const taskStore = defineStore("taskStore", () => {
             const { data } = await api.post("/tasks", newTask);
             tasks.value.unshift(data[0]);
         } catch (e) {
+            console.error("Error creating task:", e.response?.data);
             error.value = e.message;
         } finally {
             loading.value = false;
@@ -80,5 +94,5 @@ export const taskStore = defineStore("taskStore", () => {
         }
     }
 
-    return { tasks, loading, error, fetchTasks, fetchTaskById , createTask, updateTask, deleteTask};
+    return { tasks, loading, error, pagination, fetchTasks, fetchTaskById , createTask, updateTask, deleteTask};
 });

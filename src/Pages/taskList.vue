@@ -9,6 +9,7 @@ import Pagination from '../components/UI/pagination.vue';
 import Overlay from '../components/UI/overlay.vue';
 import Input from '../components/UI/input.vue';
 import Select from '../components/UI/select.vue';
+import SkeletonCard from '../components/skeletonCard.vue';
 
 const store = taskStore();
 const category = categoriesStore();
@@ -88,7 +89,10 @@ const addTask = () => {
             Create Task
         </Button>
     </div>
-    <div class="bg-gray-100 p-6 rounded-lg">
+    <div v-if="store.loading">
+        <SkeletonCard v-for="n in 3" :key="n"/>
+    </div>
+    <div v-else class="bg-gray-100 p-6 rounded-lg">
         <p v-if="store.tasks.length === 0">No tasks available</p>
         <TaskCard 
         v-for="task in store.tasks" :key="task.id" :title="task.title" :description="task.description" :dueDate="task.due_date" :completed="task.completed" :image_url="task.image_url" :priority="task.priority" :categoryId="task.category_id"/>
@@ -108,7 +112,7 @@ const addTask = () => {
             </div>
             <div class="flex flex-col gap-1.5">
                 <label class="text-sm" for="category">Category</label>
-                <Select v-model="categoryInput" :options="categoryOptions" placeholder="Enter task category" required :class="{'border-red-500': categoryTouched && !categoryInput}" @blur="categoryTouched = true" />
+                <Select v-model="categoryInput" :options="categoryOptions" placeholder="Enter task category" required :class="{'border-red-500': categoryTouched && !categoryInput}" @change="categoryTouched = true" />
                 <span class="text-red-500 text-[11px]" v-if="categoryTouched && !categoryInput">Category is required</span>
             </div>
             <div class="flex flex-col gap-1.5">

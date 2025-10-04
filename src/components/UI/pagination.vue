@@ -1,13 +1,15 @@
 <script setup>
+  import { nextTick } from 'vue';
     defineProps({
         pagination: {
             type: Object,
             required: true
         }
     })
-    const changePage = (page) => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        emit('change-page', page);
+    const changePage = async (page) => {
+      emit('change-page', page);
+      await nextTick();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     const emit = defineEmits(['change-page']);
 </script>

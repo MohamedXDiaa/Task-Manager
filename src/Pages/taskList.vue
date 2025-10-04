@@ -9,7 +9,7 @@ import Pagination from '../components/UI/pagination.vue';
 import Overlay from '../components/UI/overlay.vue';
 import Input from '../components/UI/input.vue';
 import Select from '../components/UI/select.vue';
-import SkeletonCard from '../components/skeletonCard.vue';
+import SkeletonTaskCard from '../components/skeletonTaskCard.vue';
 
 const store = taskStore();
 const category = categoriesStore();
@@ -66,10 +66,9 @@ const addTask = () => {
         due_date: dueDateInput.value || 'today',
     };
 
-    console.log(newTask);
+    store.createTask(newTask);
     titleTouched.value = false;
     categoryTouched.value = false;
-    store.createTask(newTask);
     titleInput.value = '';
     categoryInput.value = '';
     descriptionInput.value = '';
@@ -82,22 +81,22 @@ const addTask = () => {
 </script>
 
 <template>
-    <div class="flex justify-between border-b border-gray-200 pb-4 mb-6">
-        <h1 class="text-3xl">Tasks</h1>
+    <div class="flex justify-between mt-16 lg:mt-0 items-center border-b border-gray-200 pb-4 mb-6">
+        <h1 class="text-3xl ">Tasks</h1>
         <Button class="flex items-center" @click="openOverlay">
             <PlusIcon class="h-[18px] w-[16px] me-1 inline" />
             Create Task
         </Button>
     </div>
     <div v-if="store.loading">
-        <SkeletonCard v-for="n in 3" :key="n"/>
+        <SkeletonTaskCard v-for="n in 3" :key="n"/>
     </div>
     <div v-else class="bg-gray-100 p-6 rounded-lg">
         <p v-if="store.tasks.length === 0">No tasks available</p>
         <TaskCard 
-        v-for="task in store.tasks" :key="task.id" :title="task.title" :description="task.description" :dueDate="task.due_date" :completed="task.completed" :image_url="task.image_url" :priority="task.priority" :categoryId="task.category_id"/>
+        v-for="task in store.tasks" :key="task.id" :id="task.id" :title="task.title" :description="task.description" :dueDate="task.due_date" :completed="task.completed" :image_url="task.image_url" :priority="task.priority" :categoryId="task.category_id"/>
     <div class="flex justify-center">
-        <Pagination  :pagination="store.pagination" @change-page="store.fetchTasks({ page: $event })"/>
+        <Pagination class="mt-2" :pagination="store.pagination" @change-page="store.fetchTasks({ page: $event })"/>
     </div>
     </div>
         <Overlay title="Add New Task"
@@ -128,7 +127,7 @@ const addTask = () => {
                 <Input v-model="dueDateInput" type="date" :min="today" placeholder="Enter date" />
             </div>
             <Button type="submit">
-                Confirm
+                {{store.loading ? 'Creating...' : 'Create'}}
             </Button>
         </form>
             

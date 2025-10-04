@@ -244,13 +244,13 @@ const api = axios.create({
 ## 🖼️ Screenshots
 
 ### Task List View
-![Task List](/public/screenshots/TaskList.png)
+![Task List](/public/Screenshots/TaskList.png)
 
 ### Task Details View
-![Task Details](/public/screenshots/TaskDetails.png)
+![Task Details](/public/Screenshots/TaskDetails.png)
 
 ### Add/Edit Task Form
-![Overlay Form](/public/screenshots/EditTask.png)
+![Overlay Form](/public/Screenshots/EditTask.png)
 
 
 ## 🔍 Known Limitations

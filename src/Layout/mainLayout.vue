@@ -4,6 +4,8 @@
 
 <template>
     <SideBar>
-        <router-view />
+        <keep-alive include="TaskList">
+            <router-view />
+        </keep-alive>
     </SideBar>
 </template>

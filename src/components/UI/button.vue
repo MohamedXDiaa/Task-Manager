@@ -10,7 +10,8 @@
         blue: "bg-blue-700 hover:bg-blue-800 focus:ring-blue-300",
         red: "bg-red-700 hover:bg-red-800 focus:ring-red-300",
         green: "bg-green-700 hover:bg-green-800 focus:ring-green-300",
-        yellow: "bg-yellow-700 hover:bg-yellow-800 focus:ring-yellow-300"
+        yellow: "bg-yellow-700 hover:bg-yellow-800 focus:ring-yellow-300",
+        gray: "bg-gray-700 hover:bg-gray-800 focus:ring-gray-300"
     }
     const emit = defineEmits(['click'])
 </script>

@@ -51,6 +51,11 @@ const categoryOptions = computed(() =>
     value: cat.id
   }))
 );
+const priorityOptions = computed(() => [
+  { label: "Low", value: "low" },
+  { label: "Medium", value: "medium" },
+  { label: "High", value: "high" }
+]);
 
 const addTask = () => {
     if (!titleInput.value || !categoryInput.value) {
@@ -120,13 +125,13 @@ const addTask = () => {
             </div>
             <div class="flex flex-col gap-1.5">
                 <label class="text-sm" for="priority">Priority</label>
-                <Select v-model="priorityInput" :options="['Low', 'Medium', 'High']" placeholder="Enter task priority" />
+                <Select v-model="priorityInput" :options="priorityOptions" placeholder="Enter task priority" />
             </div>
             <div class="flex flex-col gap-1.5">
                 <label class="text-sm" for="dueDate">Date</label>
                 <Input v-model="dueDateInput" type="date" :min="today" placeholder="Enter date" />
             </div>
-            <Button type="submit">
+            <Button class="mt-4" type="submit">
                 {{store.loading ? 'Creating...' : 'Create'}}
             </Button>
         </form>

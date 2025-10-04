@@ -22,8 +22,7 @@ const props = defineProps({
 const category = computed(() => store.categories.find((cat) => cat.id === props.categoryId))
 
 const openTaskDetails = () => {
-    console.log("Navigating to id:", props.id)
-  router.push({ name: 'TaskDetails', params: { id: props.id } })
+    router.push({ name: 'TaskDetails', params: { id: props.id } })
 }
 
 const loadingImage = ref(true);
